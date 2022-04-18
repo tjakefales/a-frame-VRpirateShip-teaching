@@ -1,0 +1,676 @@
+<html>
+    
+    <head>
+
+
+<script src="//aframe.io/releases/0.7.1/aframe.min.js"></script>
+<script src="//unpkg.com/aframe-environment-component/dist/aframe-environment-component.min.js"></script>
+<script src="//unpkg.com/aframe-extras@3.13.1/dist/aframe-extras.min.js"></script>
+<script src="//unpkg.com/aframe-csg-meshs@1.0.0/index.js"></script>
+
+    </head>
+    
+    <body>
+<a-scene>
+  
+  <!-- ASSETS -->
+  <a-assets>
+    
+    
+    <!-- Mixins -->
+    <a-mixin id="wall1" geometry="primitive: box; height: 10; width: 10; depth: 0.25;" material="src:https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97;"></a-mixin>
+    <a-mixin id="wall2" geometry="primitive: box; height: 4; width: 10; depth: 0.25;" material="src:https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97;"></a-mixin>
+    <a-mixin id="wall3" geometry="primitive: box; height: 4; width: 3.5; depth: 0.25;" material="src:https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97;"></a-mixin>
+
+    <a-mixin id="window" geometry="primitive: cylinder; height: 1; radius: 0.5;" material="color: lightblue; opacity: 0.2; roughness: 0;" rotation="90 0 0"></a-mixin>
+    <!-- <a-mixin id="door" geometry="primitive: box; height: 5; width=3; depth: 0.3;" material="color: lightblue; opacity: 0.01; roughness:0;"></a-mixin> -->
+  </a-assets>
+  
+  <!-- Environment -->
+  <a-ocean color="#92E2E2" width="250" depth="250" density="150" speed="2" opacity="0.5"></a-ocean>
+  <a-sky src="https://codehs.com/uploads/7f89f73f2dcb929855274d4563d9db49"></a-sky>
+  
+  <!-- Camera -->
+  <a-entity camera="userHeight: 1.6;" universal-controls="fly: true;" 
+  kinematic-body jump-ability>
+    <a-cursor></a-cursor>>
+  </a-entity>
+  
+  <!-- Roof -->
+ <a-box 
+    static-body 
+    height="0.3" 
+    width="10" 
+    depth="10" 
+    position="0 8 -2" 
+    src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+      
+  </a-box>
+  
+  
+  <!-- Room Wall 1 -->
+  <a-entity position="0 2 -7" static-body>
+    <a-entity mixin="wall2">
+    </a-entity>
+  </a-entity> 
+  
+
+  <!-- Room Wall 2 -->
+  <a-entity static-body position="-4.875 5 -2">
+    <a-entity mixin="wall1" rotation="0 -90 0" csg-meshs="subtract: .window;">
+      <a-entity class="window" mixin="window" position="-2 -1 0"></a-entity>
+      <a-entity class="window" mixin="window" position="2 -1 0"></a-entity>
+    </a-entity>
+ </a-entity>
+  
+   <!-- Room Wall 3 -->
+  <a-entity static-body position="4.875 5 -2">
+    <a-entity mixin="wall1" rotation="0 90 0" csg-meshs="subtract: .window;">
+      <a-entity class="window" mixin="window" position="-2 -1 0"></a-entity>
+      <a-entity class="window" mixin="window" position="2 -1 0"></a-entity>
+    </a-entity>
+ </a-entity>
+  
+  
+  <!-- Room Wall 4 -->
+  <a-entity position="0 5 3" static-body>
+    <a-entity mixin="wall1"></a-entity>
+ </a-entity>
+  
+  <!-- Base so we don't fall through -->
+  <a-box 
+    height="1" 
+    width="100" 
+    depth="100" 
+    position="0 0 0" 
+    visible="false" 
+    static-body>
+      
+  </a-box>
+  
+  <!-- Initial Room Floor -->
+  <a-box 
+    static-body 
+    height="0.4" 
+    width="10" 
+    depth="10" 
+    position="0 0.2 -2" 
+    src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+      
+  </a-box>
+  
+  <!-- Ramp out of Room--> 
+  <a-box
+    static-body 
+    height="6" 
+    width="2" 
+    depth="0.2" 
+    position="0 2.5 -4.8" 
+    rotation="-50 0 0" 
+    src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523">
+      
+  </a-box>
+  
+  <!-- Deck Floor -->
+  <a-box
+    static-body 
+    height="0.3" 
+    width="10" 
+    depth="20" 
+    position ="0 4 -17" 
+    src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+      
+  </a-box>
+  
+  <!-- walls that make a door -->
+    <a-entity position="3.25 6 -7" static-body>
+        <a-entity mixin="wall3">
+        </a-entity>
+     </a-entity> 
+    
+     <a-entity position="-3.25 6 -7" static-body>
+    <a-entity mixin="wall3">
+    </a-entity>
+  </a-entity> 
+  
+  
+  <!-- Mast, outlook, and sail things -->
+  <!-- Mast -->
+  <a-cylinder 
+    static-body 
+    height="20" 
+    radius="0.35" 
+    position="0 12 -18"
+    src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523">
+      
+  </a-cylinder>
+  
+  
+    <!-- Outlook Thing -->
+    <a-cylinder
+        static-body
+        height="2" 
+        radius="2.5" 
+        position="0 13 -18"
+        src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523"
+        csg-meshs="subtract: #inside"
+  >
+    </a-cylinder>
+    
+    
+    <a-cylinder
+        id="inside"
+        position="0 13.5 -18"
+        height="2"
+        radius="2.2"
+        color="#EF2D5E" 
+        material="transparent: true; opacity: 0.01">
+        
+    </a-cylinder>
+
+    
+    <!-- Sail --> 
+    <a-cylinder
+        height="10" 
+        radius="5" 
+        position="0 18 -22"
+        theta-start="90"
+        theta-length="180"
+        rotation="0 0 90"
+        side="double"
+        src="https://codehs.com/uploads/1fc0e60cecb81a91f4310e4749c8064c"
+        csg-meshs="subtract:#innersail">
+    </a-cylinder>
+    
+    <a-cylinder
+    id="innersail"
+    position="0 18 -21.5"
+    height="10"
+    radius="5"
+    theta-start="90"
+    theta-length="180"
+    rotation="0 0 90"
+    side="double"
+    color="#EF2D5E" 
+    material="transparent: true; opacity: 0.01">
+        
+    </a-cylinder>
+    
+    <!-- Ropes from sail to mast -->
+    <a-cylinder 
+    height="9.4"
+    radius="0.05"
+    position="2.4 19.8 -20.5"
+    rotation= "135 -45 0"
+    src="https://codehs.com/uploads/c07a8e012b22a7949b4461870f91c87f"  >
+        
+    </a-cylinder>
+    
+    <a-cylinder 
+    height="9.4"
+    radius="0.05"
+    position="-2.4 19.8 -20.5"
+    rotation= "135 45 0"
+    src="https://codehs.com/uploads/c07a8e012b22a7949b4461870f91c87f"  >
+        
+    </a-cylinder>
+
+ <a-cylinder 
+    height="8"
+    radius="0.05"
+    position="-2.4 15 -20.75"
+    rotation= "68 40 0"
+    src="https://codehs.com/uploads/c07a8e012b22a7949b4461870f91c87f"  >
+        
+    </a-cylinder>
+
+<a-cylinder 
+    height="8"
+    radius="0.05"
+    position="2.4 15 -20.75"
+    rotation= "68 -40 0"
+    src="https://codehs.com/uploads/c07a8e012b22a7949b4461870f91c87f"  >
+        
+    </a-cylinder>
+
+
+    <!--UPPER DECK -->
+   <!-- ramps to the top --> 
+   <a-box
+    static-body 
+    height="6" 
+    width="2" 
+    depth="0.2" 
+    position="-3.25 6.25 -9" 
+    rotation="45 0 0" 
+    src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523">
+      
+  </a-box>
+  
+  <a-box
+    static-body 
+    height="6" 
+    width="2" 
+    depth="0.2" 
+    position="3.25 6.25 -9" 
+    rotation="45 0 0" 
+    src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523">
+      
+  </a-box>
+  
+  <!-- Steering Wheel -->
+    <a-box
+    static-body 
+    height="1" 
+    width="3" 
+    depth="0.2" 
+    position ="0 8.5 -6.9" 
+    src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+      
+  </a-box>
+
+ <a-box
+    static-body 
+    height="2" 
+    width="0.5" 
+    depth="0.2" 
+    position ="0 8.9 -6.8" 
+    src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+      
+  </a-box>
+
+  
+  <a-torus
+        radius="0.5"
+        radius-tubular="0.05"
+        position="0 9.4 -6.7"
+        src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523"
+      >
+        <a-animation 
+                    attribute="rotation"
+                    from="0 0 0"
+                    to="0 0 -30"
+                    dur="3000"
+                    repeat="indefinite"
+                    direction="alternate"
+                > </a-animation>
+      
+  </a-torus>
+  
+  <a-cylinder 
+    height="2.1"
+    radius="0.05"
+    position="0 9.4 -6.7"
+    src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523"
+  >
+      <a-animation 
+                    attribute="rotation"
+                    from="0 0 0"
+                    to="0 0 -30"
+                    dur="3000"
+                    repeat="indefinite"
+                    direction="alternate"
+                > </a-animation>
+  </a-cylinder>
+  
+  <a-cylinder 
+    height="2.1"
+    radius="0.05"
+    position="0 9.4 -6.7"
+    src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523"
+    rotation="0 0 60"
+ 
+  >
+      <a-animation 
+                    attribute="rotation"
+                    from="0 0 60"
+                    to="0 0 30"
+                    dur="3000"
+                    repeat="indefinite"
+                    direction="alternate"
+                > </a-animation>
+  </a-cylinder>
+  
+  <a-cylinder 
+    height="2.1"
+    radius="0.05"
+    position="0 9.4 -6.7"
+    src="https://codehs.com/uploads/e914f84ce5a72cbe8bb93cb716efa523"
+    rotation="0 0 -60"
+ 
+  >
+      <a-animation 
+                    attribute="rotation"
+                    from="0 0 -60"
+                    to="0 0 -90"
+                    dur="3000"
+                    repeat="indefinite"
+                    direction="alternate"
+                > </a-animation>
+  </a-cylinder>
+  
+
+ 
+ <!-- Cannons and Fun Stuff --> 
+    <!-- Cannon -->
+        <!-- Wheel 1-->
+        <a-cylinder 
+            height="0.1"
+            radius="0.35"
+            position="-3.9 4.5 -20"
+            rotation="90 0 0"
+            src="https://codehs.com/uploads/f42daa7a1057c2f66b0e7e90133b9318"
+
+        >
+            
+        </a-cylinder>
+ 
+         <!-- Wheel 2-->
+        <a-cylinder 
+            height="0.1"
+            radius="0.35"
+            position="-3.9 4.5 -21"
+            rotation="90 0 0"
+            src="https://codehs.com/uploads/f42daa7a1057c2f66b0e7e90133b9318"
+
+        >
+            
+        </a-cylinder>
+
+        <!-- Wheel 3-->
+        <a-cylinder 
+            height="0.1"
+            radius="0.35"
+            position="-2.8 4.5 -21"
+            rotation="90 0 0"
+            src="https://codehs.com/uploads/f42daa7a1057c2f66b0e7e90133b9318"
+
+        >
+            
+        </a-cylinder>
+
+        <!-- Wheel 4-->
+        <a-cylinder 
+            height="0.1"
+            radius="0.35"
+            position="-2.8 4.5 -20"
+            rotation="90 0 0"
+            src="https://codehs.com/uploads/f42daa7a1057c2f66b0e7e90133b9318"
+
+        >
+    
+        </a-cylinder>
+ 
+        <!-- Cannon Platform --> 
+        <a-box 
+        static-body
+        height="0.2"
+        width="2.5"
+        depth="1"
+        position="-3.2 4.6 -20.5"
+        src="https://codehs.com/uploads/f42daa7a1057c2f66b0e7e90133b9318"
+
+        >
+            
+        </a-box>
+ 
+        <!-- Cannon -->
+        <a-cylinder 
+        static-body
+        height=3
+        radius= 0.3
+        position="-4 5.1 -20.5"
+        rotation="100 90 0"
+        src="https://codehs.com/uploads/4d6a6e15d4794d69d70f8debeb3b380e"
+        >
+            
+        </a-cylinder>
+ 
+ 
+        
+        
+        <!-- Cannon Ball -->
+        <a-sphere
+            radius="0.25"
+            position="-2 4.85 -20.5"
+            src="https://codehs.com/uploads/5459be43dff9532ddef1a1d70b48c4cb"
+            >
+            
+        
+                <a-animation
+                    attribute="position"
+                    from="-2 4.85 -20.5"
+                    to="-100 17.63 -20.5"
+                    direction="alternate"
+                    begin="click"
+                >
+                </a-animation> 
+        
+        
+            
+        </a-sphere>
+ 
+ 
+        
+     
+     
+ </a-box>
+ 
+ 
+ 
+ 
+ 
+    <!-- Tresure Chest -->
+    <!--chest-->
+    <a-box
+    static-body 
+    height="1" 
+    width="3" 
+    depth="1" 
+    position="0 8.5 1" 
+    src="https://codehs.com/uploads/20cc84a3222a99253d1acdfd337d8fd2">
+    </a-box>
+        
+    <!-- Little Jewel on the front --> 
+    <a-icosahedron 
+    radius="0.2"
+    position="0 8.8 0.5"
+    src="https://codehs.com/uploads/1017b1fd68bac5cee997c9de6a534a40"
+    
+    
+    
+    >
+        
+        
+        
+    </a-icosahedron>
+ 
+    <!-- Gold Inside Chest -->
+    <a-cylinder
+        height="2.8" 
+        radius="0.4" 
+        position="0 8.9 1"
+        side="double"
+        rotation="0 0 90"
+        src="https://codehs.com/uploads/b89e7caf4ba3b9490a9c0c322d702048">
+    </a-cylinder>
+    
+    
+    <!-- Lid of Chest -->
+    
+    
+    <a-entity
+        position="0 9 1.5">  <!-- Grandparent entity -->
+        <a-animation
+        attribute="rotation"
+        dur="5000"
+        to="90 0 0"
+        direction="alternate"
+        begin="click">
+        </a-animation>           
+        
+        <a-entity 
+            rotation="0 0 0"
+            position="0 0 0"
+        >        <!-- Parent entity --> 
+    <a-cylinder
+        static-body
+        height="3" 
+        radius="0.5" 
+        position="0 0 -0.5"
+        theta-start="90"
+        theta-length="180"
+        rotation="90 90 0"
+        side="double"
+        src="https://codehs.com/uploads/20cc84a3222a99253d1acdfd337d8fd2">
+
+
+    </a-cylinder>
+    </a-entity>
+</a-entity>
+    
+    
+    
+    
+    
+ 
+  <!-- Construction of outside of Ship --> 
+  <!-- Front of ship -->
+    <a-cylinder
+        static-body
+        height="6" 
+        radius="5" 
+        position="0 3 -27"
+        theta-start="90"
+        theta-length="180"
+        side="double"
+        src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+    </a-cylinder>
+    
+    <a-box 
+        height="6"
+        width="10"
+        depth="0.2"
+        position="0 3 -27"
+        src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97"
+    >
+        
+    </a-box>
+
+  <!-- Back of Ship -->
+   <a-cylinder
+        static-body
+        height="10" 
+        radius="5" 
+        position="0 5 3"
+        theta-start="270"
+        theta-length="180"
+        side="double"
+        src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+    </a-cylinder>
+
+  <!-- Left Side --> 
+    <a-box
+        static-body 
+        height="5" 
+        width="0.25" 
+        depth="20" 
+        position ="-4.875 2.5 -17" 
+        src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+        
+    </a-box>
+
+    <!-- Right Side --> 
+    <a-box
+        static-body 
+        height="5" 
+        width="0.25" 
+        depth="20" 
+        position ="4.875 2.5 -17" 
+        src="https://codehs.com/uploads/7cb98815cd21135ce49c3af6cef85a97">
+        
+    </a-box>
+  
+  <!-- Sharks?? -->
+  
+    
+    <a-entity
+    position="0 0 -12">
+         <a-animation
+        attribute="rotation"
+        dur="20000"
+        to="0 -360 0"
+        repeat="indefinite"
+        easing="linear"
+        >
+        </a-animation>         
+       
+       <a-entity
+         position="-30 0 0">
+        
+        <!-- body -->
+        <a-cylinder
+        height="8"
+        radius="1"
+        rotation="90 0 0"
+        src="https://codehs.com/uploads/e04acf98928a9230277e57f9f3ab276d"
+        >
+            
+        </a-cylinder>
+        
+        <!-- Fin -->
+        <a-box 
+        height="2"
+        width="0.1"
+        depth="2"
+        position="0 1 0"
+        rotation="45 0 0"
+        src="https://codehs.com/uploads/e04acf98928a9230277e57f9f3ab276d"
+        >
+            
+        </a-box>
+        
+        <!-- head -->
+        <a-sphere
+        radius="1"
+        position="0 0 -4"
+        src="https://codehs.com/uploads/e04acf98928a9230277e57f9f3ab276d"
+        >
+            
+        </a-sphere>
+      
+        <!-- tail -->
+        <a-cone
+        radius-bottom="0.1"
+        radius-top="1"
+        height="3"
+        position="0 0 5.5"
+        rotation="-90 0 0"
+        src="https://codehs.com/uploads/e04acf98928a9230277e57f9f3ab276d"
+        >
+            
+        </a-cone>
+        <a-box
+        height="2"
+        width="0.1"
+        depth="2"
+        position="0 0.5 5.5"
+        rotation="65 0 0"
+        src="https://codehs.com/uploads/e04acf98928a9230277e57f9f3ab276d"
+        >
+            
+        </a-box>
+        
+        
+        </a-entity>  
+    </a-entity>
+  
+  
+ 
+  
+  
+  
+  
+</a-scene>
+</body>
+</html>
